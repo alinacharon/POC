@@ -1,5 +1,3 @@
-# app.py
-
 import streamlit as st
 import pandas as pd
 import numpy as np
@@ -12,7 +10,7 @@ from transformers import AutoTokenizer
 import joblib
 from model import MultiLabelDeberta
 
-# ========== Загрузка модели и данных ==========
+# ========== Loading model and data ==========
 st.set_page_config(page_title="Tag Predictor", layout="wide")
 
 
@@ -30,7 +28,34 @@ def load_model_and_tokenizer():
 
 model, tokenizer, mlb = load_model_and_tokenizer()
 
-# ========== Загрузка данных ==========
+import os
+import requests
+
+def download_from_gdrive(file_id, dest_path):
+    URL = "https://drive.google.com/uc?export=download"
+    session = requests.Session()
+    response = session.get(URL, params={'id': file_id}, stream=True)
+    token = None
+    for key, value in response.cookies.items():
+        if key.startswith('download_warning'):
+            token = value
+    if token:
+        params = {'id': file_id, 'confirm': token}
+        response = session.get(URL, params=params, stream=True)
+    with open(dest_path, "wb") as f:
+        for chunk in response.iter_content(32768):
+            if chunk:
+                f.write(chunk)
+
+
+if not os.path.exists("deberta_multilabel.pt"):
+    download_from_gdrive("1XE_nJwFJwdZj2-I4gH6kAfGuOBczlRzf", "deberta_multilabel.pt")
+
+
+if not os.path.exists("mlb.pkl"):
+    download_from_gdrive("1M2_AVSu9VxAR9NJg75x3UHxiw-2laNCh", "mlb.pkl")
+    
+# ========== data loading ==========
 
 
 @st.cache_data
@@ -42,7 +67,7 @@ def load_data():
 
 X, Y = load_data()
 
-# ========== Функция предсказания ==========
+# ========== prediction function ==========
 
 
 def predict_tags(text, threshold=0.5):
@@ -63,7 +88,7 @@ def predict_tags(text, threshold=0.5):
     return predicted_tags[0]
 
 
-# ========== Интерфейс ==========
+# ========== interface ==========
 st.title("Prédicteur de Tags StackOverflow")
 
 st.markdown("## 1. Analyse des données textuelles")
