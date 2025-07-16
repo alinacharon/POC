@@ -31,7 +31,6 @@ transformers_cache/
 huggingface/
 
 # === Dataset or outputs ===
-*.csv
 *.tsv
 *.json
 *.xlsx
