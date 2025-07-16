@@ -1,0 +1,59 @@
+# === Python bytecode ===
+__pycache__/
+*.py[cod]
+*$py.class
+
+# === Jupyter Notebooks checkpoints ===
+.ipynb_checkpoints
+
+# === Virtual environment ===
+.venv/
+venv/
+env/
+ENV/
+
+# === OS files ===
+.DS_Store
+Thumbs.db
+
+# === Streamlit cache ===
+.streamlit/cache/
+.streamlit/config.toml
+
+# === PyTorch checkpoints and model files ===
+*.pt
+*.pth
+*.bin
+
+# === Tokenizer and transformers cache ===
+.cache/
+transformers_cache/
+huggingface/
+
+# === Dataset or outputs ===
+*.csv
+*.tsv
+*.json
+*.xlsx
+*.log
+*.npy
+*.npz
+
+# === Model artifacts ===
+*.joblib
+*.pkl
+
+# === Environment files ===
+.env
+.env.*
+
+# === VSCode / IDE ===
+.vscode/
+.idea/
+
+# === Misc ===
+*.zip
+*.tar.gz
+*.egg-info/
+build/
+dist/
